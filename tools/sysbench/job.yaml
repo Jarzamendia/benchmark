@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sysbench-cpu
+spec:
+  template:
+    spec:
+      containers:
+      - name: sysbench
+        image: jarzamendia/sysbench:3
+        args: ["cpu"]
+        env:
+          - name: CPU_MAXPRIME
+            value: "2000"
+          - name: STG_ACCOUNT
+            value: benchmarkcorp
+          - name: SHARE_NAME
+            value: results
+          - name: SAS_TOKEN
+            value: "$SAS_TOKEN"
+      restartPolicy: Never
+  backoffLimit: 1
+  completions: 100
+  parallelism: 1
